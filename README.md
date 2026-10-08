@@ -55,3 +55,16 @@ Der MCP-Port wird auf `127.0.0.1:17887` gebunden. **Keine öffentliche Freigabe 
 - SHA-256: `e1061a31d96c17dd96676e696499801dd64275e2cd55441b8d28a4cadb75969b`
 
 Die ausführlichen Anleitungen und Quellcode-Dateien befinden sich im Paket. Keine Zugangsdaten/Secrets sind enthalten.
+
+### Korrektur der Laufzeitpruefung nach Docker-29-Proxy-Reparatur
+
+Das urspruengliche `scripts/verify.sh` kann bei Schritt 7 abbrechen, obwohl der Port funktioniert: `ss` sieht Docker-NAT nicht in allen Konfigurationen. Nutze im bereits installierten Verzeichnis stattdessen das **nur lesende** [verify-fixed.sh](./verify-fixed.sh), das die tatsaechliche Docker-Portbindung sowie Proxy-Isolation, Backend-Mounts und Netzwerke prueft:
+
+```bash
+curl -fL -o verify-fixed.sh https://raw.githubusercontent.com/redshoxx/free-remote-commander-vps/main/verify-fixed.sh
+curl -fL -o verify-fixed.sha256 https://raw.githubusercontent.com/redshoxx/free-remote-commander-vps/main/verify-fixed.sha256
+sha256sum -c verify-fixed.sha256
+bash verify-fixed.sh
+```
+
+Erwartete SHA-256: `aa7aaa90b7841c6b411b6273a2a9acf9ce5fccaaaf396423b5d5e12cb5639c5c`. Das Skript aendert keine Container, Netzwerke oder Firewall-Einstellungen. Der lokale Test bestand bei gueltigem Docker-Mock und schlug bei absichtlich unsicherer Bindung wie erwartet fehl. **Der echte VPS-Test steht bis zur Ausfuehrung noch aus.**
