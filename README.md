@@ -58,7 +58,7 @@ Die ausführlichen Anleitungen und Quellcode-Dateien befinden sich im Paket. Kei
 
 ### Korrektur der Laufzeitpruefung nach Docker-29-Proxy-Reparatur
 
-Das urspruengliche `scripts/verify.sh` kann bei Schritt 7 abbrechen, obwohl der Port funktioniert: `ss` sieht Docker-NAT nicht in allen Konfigurationen. Nutze im bereits installierten Verzeichnis stattdessen das **nur lesende** [verify-fixed.sh](./verify-fixed.sh), das die tatsaechliche Docker-Portbindung sowie Proxy-Isolation, Backend-Mounts und Netzwerke prueft:
+Die aktualisierte Projektwurzel-Version von `verify-fixed.sh` behebt zusaetzlich die irrtuemliche Meldung `Missing .env: install first`. Das urspruengliche `scripts/verify.sh` kann bei Schritt 7 abbrechen, obwohl der Port funktioniert: `ss` sieht Docker-NAT nicht in allen Konfigurationen. Nutze im bereits installierten Verzeichnis stattdessen das **nur lesende** [verify-fixed.sh](./verify-fixed.sh), das die tatsaechliche Docker-Portbindung sowie Proxy-Isolation, Backend-Mounts und Netzwerke prueft:
 
 ```bash
 curl -fL -o verify-fixed.sh https://raw.githubusercontent.com/redshoxx/free-remote-commander-vps/main/verify-fixed.sh
@@ -67,4 +67,4 @@ sha256sum -c verify-fixed.sha256
 bash verify-fixed.sh
 ```
 
-Erwartete SHA-256: `aa7aaa90b7841c6b411b6273a2a9acf9ce5fccaaaf396423b5d5e12cb5639c5c`. Das Skript aendert keine Container, Netzwerke oder Firewall-Einstellungen. Der lokale Test bestand bei gueltigem Docker-Mock und schlug bei absichtlich unsicherer Bindung wie erwartet fehl. **Der echte VPS-Test steht bis zur Ausfuehrung noch aus.**
+Erwartete SHA-256: `d65d20b53dfa72c278ea32eaf89ea3905e7995b40fd30943c7b51fdd5229cd4b`. Das Skript aendert keine Container, Netzwerke oder Firewall-Einstellungen. Der lokale Test bestand bei gueltigem Docker-Mock und schlug bei absichtlich unsicherer Bindung wie erwartet fehl. **Der echte VPS-Test steht bis zur Ausfuehrung noch aus.**
