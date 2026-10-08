@@ -2,7 +2,7 @@
 # Free Remote Commander VPS 1.2 - read-only runtime audit for Docker 29 local proxy mode.
 # Does NOT create, alter, stop, or restart containers. Does not print MCP secrets.
 set -euo pipefail
-ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 NAME='frc-vps-folder-12'
 NET='frc-vps-internal-12'
 PORT=17887
