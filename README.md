@@ -1,5 +1,24 @@
 # Free Remote Commander VPS 1.2
 
+## Hinweis fuer Docker Engine 29 (VPS 1.2)
+
+Das bisherige Installationsskript kombiniert ein internes Docker-Netzwerk mit Port-Publishing. Bei diesem VPS fuehrt dies zu einem fehlenden Host-Port und einem fehlgeschlagenen lokalen Healthcheck. Das ist **kein Fehler des Wardogs-Containers**.
+
+Fuer eine bereits erfolgte Installation (Image gebaut, Container `frc-vps-folder-12` gestartet) gibt es den einzeln getesteten Reparatur-Helfer [fix.sh](./fix.sh) ([Quelltext](./repair-connectivity.sh)). Er **behaelt Backend, internes Netzwerk, Workspace und .env** und erstellt nur einen separaten, auf `127.0.0.1:17887` gebundenen Proxy-Container in einem eigenen Bridge-Netzwerk. Der Proxy bekommt keinen Host-Dateisystem- oder Docker-Socket-Zugriff.
+
+```bash
+cd /root/free-remote-commander-vps
+curl -fL -o fix.sh https://raw.githubusercontent.com/redshoxx/free-remote-commander-vps/main/fix.sh
+sha256sum fix.sh  # vor dem Ausfuehren mit veroeffentlichtem SHA-256-Wert vergleichen
+bash fix.sh
+bash scripts/verify.sh
+```
+
+SHA-256 fuer `fix.sh`: `237bdef354b263e18bd4d73e869acf926a3cf37176d1ca1722bf77d0a12d624e`.
+
+**Wichtig:** Der Reparatur-Helfer ist lokal auf Syntax und Proxy-Funktionen getestet, aber noch nicht auf dem VPS Docker 29. Kein geheimer MCP-Link darf oeffentlich freigegeben werden.
+
+
 Isolierter MCP-Server für **einen neu angelegten Arbeitsordner** auf Ubuntu 24.04 mit Docker Engine >= 28. `docker compose` ist **nicht** erforderlich. Kein Root-SSH, keine Shell-/Prozess-Tools, keine Host-Verzeichnisse außerhalb des Workspace.
 
 **Status:** Lokal mit 15 automatisierten Tests geprüft. Noch **nicht** auf dem produktiven VPS installiert oder dort verifiziert. Die Veröffentlichung dieses Repositorys installiert nichts.
